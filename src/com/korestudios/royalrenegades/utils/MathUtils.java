@@ -35,4 +35,10 @@ public class MathUtils {
         }
     }
 
+    public static float moveCloser(float curr, float desired, float factor){
+        if(Math.abs(curr-desired)>100)
+            return desired;
+        return (desired-curr)*factor+curr;
+    }
+
 }

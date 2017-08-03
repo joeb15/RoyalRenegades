@@ -5,9 +5,7 @@ import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
 import com.korestudios.royalrenegades.world.World;
 
-import static com.korestudios.royalrenegades.constants.VariableConstants.DEFAULT_SPRITE_SHEET;
-import static com.korestudios.royalrenegades.constants.VariableConstants.DEFAULT_SPRITE_SHEET_COLS;
-import static com.korestudios.royalrenegades.constants.VariableConstants.DEFAULT_SPRITE_SHEET_ROWS;
+import static com.korestudios.royalrenegades.constants.VariableConstants.*;
 
 public class Tile {
 
@@ -74,5 +72,9 @@ public class Tile {
 
     public boolean doesCollide() {
         return collides;
+    }
+
+    public float getRotation(MetaData metaData) {
+        return 0;
     }
 }

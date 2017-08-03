@@ -4,6 +4,7 @@ import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
 import org.lwjgl.glfw.GLFWErrorCallbackI;
+
 import java.io.PrintStream;
 
 import static org.lwjgl.glfw.GLFWErrorCallback.getDescription;

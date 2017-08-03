@@ -2,8 +2,6 @@ package com.korestudios.royalrenegades.tiles;
 
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
 import com.korestudios.royalrenegades.tiles.metadata.WindowMetaData;
-import com.korestudios.royalrenegades.world.Chunk;
-import org.joml.Vector2i;
 
 public class TileWindow extends Tile {
 
@@ -24,39 +22,27 @@ public class TileWindow extends Tile {
     public int getTileX(MetaData metaData){
         WindowMetaData md = ((WindowMetaData)metaData);
         int orientation = md.orientation;
-        int shift=0;
-        if(md.hasMob)
-            shift=3;
-        switch (orientation&LOC_MASK){
-            case TOP:
-                switch (orientation&POS_MASK){
-                    case CENTER:return 1+shift;
-                    case END_L:return 0+shift;
-                    case END_R:return 2+shift;
-                }
-            case LEFT:return 1+shift;
-            case RIGHT:return 0+shift;
+        switch (orientation&POS_MASK){
+            case CENTER:return 1;
+            case END_L:return 0;
+            case END_R:return 2;
         }
         return 0;
     }
 
     public int getTileY(MetaData metaData){
-        int orientation = ((WindowMetaData)metaData).orientation;
+        WindowMetaData md = ((WindowMetaData)metaData);
+        if(md.hasMob)
+            return 2;
+        return 1;
+    }
 
-        switch (orientation&LOC_MASK){
-            case TOP:return 1;
-            case LEFT:
-                switch (orientation&POS_MASK){
-                    case CENTER:return 3;
-                    case END_L:return 4;
-                    case END_R:return 2;
-                }
-            case RIGHT:
-                switch (orientation&POS_MASK){
-                    case CENTER:return 3;
-                    case END_L:return 2;
-                    case END_R:return 4;
-                }
+    public float getRotation(MetaData metaData){
+        WindowMetaData md = (WindowMetaData)metaData;
+        switch (md.orientation&LOC_MASK){
+            case TOP:return 0;
+            case LEFT:return 90;
+            case RIGHT:return -90;
         }
         return 0;
     }

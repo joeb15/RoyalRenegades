@@ -3,7 +3,8 @@ package com.korestudios.royalrenegades.utils.logging;
 import java.io.PrintStream;
 import java.util.Calendar;
 
-import static com.korestudios.royalrenegades.utils.logging.PRIORITY.*;
+import static com.korestudios.royalrenegades.utils.logging.PRIORITY.DEBUG;
+import static com.korestudios.royalrenegades.utils.logging.PRIORITY.NONE;
 
 /**
  * Created by joe on 7/16/17.

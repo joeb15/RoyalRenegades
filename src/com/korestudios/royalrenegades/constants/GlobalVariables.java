@@ -5,7 +5,6 @@ import org.joml.Vector2f;
 
 import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_HEIGHT;
 import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_WIDTH;
-import static com.korestudios.royalrenegades.constants.VariableConstants.TILE_SIZE;
 
 public class GlobalVariables {
     public static Vector2f CENTER =

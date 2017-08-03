@@ -1,8 +1,6 @@
 package com.korestudios.royalrenegades.guis;
 
 import com.korestudios.royalrenegades.font.BitmapFont;
-import com.korestudios.royalrenegades.utils.BitmapData;
-import org.joml.Vector2f;
 
 public class TextComponent {
 

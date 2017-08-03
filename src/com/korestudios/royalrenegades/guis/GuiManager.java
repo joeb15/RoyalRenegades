@@ -1,7 +1,6 @@
 package com.korestudios.royalrenegades.guis;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GuiManager {
 

@@ -53,7 +53,7 @@ public class ChunkStart extends Chunk{
         setTile(17,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_R, false));
         clearCorners();
 
-        entities.add(new MainEntity());
+        entities.add(new MainEntity(4.5f, 4.5f));
     }
 
     public void update(){

@@ -33,4 +33,6 @@ public class VariableConstants {
     public static final int DEFAULT_SPRITE_SHEET_ROWS = 16;
     public static final int DEFAULT_SPRITE_SHEET_COLS = 16;
 
+    public static boolean limitFrameRate = true;
+
 }

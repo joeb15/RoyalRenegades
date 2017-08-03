@@ -4,12 +4,7 @@ import com.korestudios.royalrenegades.entities.Entity;
 import com.korestudios.royalrenegades.tiles.Tile;
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
 import com.korestudios.royalrenegades.world.World;
-import org.joml.Vector2f;
-import org.joml.Vector2i;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CollisionSystem {

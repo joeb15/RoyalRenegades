@@ -1,11 +1,12 @@
 package com.korestudios.royalrenegades.renderer;
 
 import com.korestudios.royalrenegades.constants.DepthConstants;
-import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.graphics.Texture;
+import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.tiles.Tile;
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
+import com.korestudios.royalrenegades.utils.Vector4i1f;
 import com.korestudios.royalrenegades.world.Chunk;
 import com.korestudios.royalrenegades.world.World;
 import org.joml.Vector4i;
@@ -22,11 +23,11 @@ public class ForegroundRenderer{
     private Shader shader;
     private World world;
 
-    private HashMap<SpriteSheet, ArrayList<Vector4i>> renderHash = new HashMap<SpriteSheet, ArrayList<Vector4i>>();
+    private HashMap<SpriteSheet, ArrayList<Vector4i1f>> renderHash = new HashMap<>();
 
     public ForegroundRenderer(World world){
         this.world = world;
-        shader = new Shader("shaders/foreground.vert", "shaders/foreground.frag");
+        shader = new Shader("shaders/foreground.vert", "shaders/foreground.frag", 4, 2, 1);
     }
 
     public void render(){
@@ -38,19 +39,19 @@ public class ForegroundRenderer{
             t.bind(0);
             float partialW = 1f/t.getCols();
             float partialH = 1f/t.getRows();
-            ArrayList<Vector4i> arrayList = renderHash.get(t);
-
-            shader.prime(arrayList.size(), INSTANCE_DATA_LENGTH);
-            for (Vector4i pos : arrayList) {
+            ArrayList<Vector4i1f> arrayList = renderHash.get(t);
+            shader.setUniform2f("uvsize",partialW-2*delta,
+                    partialH-2*delta);
+            shader.prime(arrayList.size());
+            for (Vector4i1f pos : arrayList) {
                 shader.load(
-                        pos.x * TILE_SIZE - CENTER.x + FRAME_WIDTH / 2,
-                        pos.y * TILE_SIZE - CENTER.y + FRAME_HEIGHT / 2,
+                        pos.x1 * TILE_SIZE - CENTER.x + FRAME_WIDTH / 2,
+                        pos.y1 * TILE_SIZE - CENTER.y + FRAME_HEIGHT / 2,
                         TILE_SIZE,
                         TILE_SIZE,
-                        partialW*pos.z+delta,
-                        partialH*pos.w+delta,
-                        partialW-2*delta,
-                        partialH-2*delta
+                        partialW*pos.x2+delta,
+                        partialH*pos.y2+delta,
+                        pos.rot
                 );
             }
             shader.draw(arrayList.size());
@@ -67,10 +68,10 @@ public class ForegroundRenderer{
                 Tile tile = currChunk.getTile(x, y);
                 SpriteSheet t = tile.getSpriteSheet();
                 if(!renderHash.containsKey(t)){
-                    renderHash.put(t, new ArrayList<Vector4i>());
+                    renderHash.put(t, new ArrayList<Vector4i1f>());
                 }
                 MetaData metaData = currChunk.getMetadata(x, y);
-                renderHash.get(t).add(new Vector4i(x, y, tile.getTileX(metaData), tile.getTileY(metaData)));
+                renderHash.get(t).add(new Vector4i1f(x, y, tile.getTileX(metaData), tile.getTileY(metaData), tile.getRotation(metaData)));
             }
         }
     }

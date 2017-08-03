@@ -3,14 +3,14 @@ package com.korestudios.royalrenegades;
 import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.constants.GlobalVariables;
 import com.korestudios.royalrenegades.constants.VariableConstants;
-import com.korestudios.royalrenegades.guis.Gui;
-import com.korestudios.royalrenegades.guis.GuiManager;
-import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.graphics.VertexArray;
+import com.korestudios.royalrenegades.guis.Gui;
+import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.renderer.MasterRenderer;
-import com.korestudios.royalrenegades.utils.*;
+import com.korestudios.royalrenegades.shaders.Shader;
+import com.korestudios.royalrenegades.utils.ErrorCallback;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
 import com.korestudios.royalrenegades.utils.time.TimeStats;
@@ -27,8 +27,6 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main implements Runnable{
-
-    private boolean limitFrameRate = false;
 
     private long window;
     private Thread thread;

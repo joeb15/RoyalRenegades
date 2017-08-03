@@ -1,6 +1,7 @@
 package com.korestudios.royalrenegades.utils;
 
 import org.joml.Vector2f;
+
 import java.util.HashMap;
 
 public class BitmapData{

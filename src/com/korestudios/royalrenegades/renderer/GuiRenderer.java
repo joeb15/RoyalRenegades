@@ -14,8 +14,6 @@ import org.joml.Vector2f;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.korestudios.royalrenegades.constants.VariableConstants.INSTANCE_DATA_LENGTH;
-
 public class GuiRenderer {
 
     private Shader shader;
@@ -123,7 +121,7 @@ public class GuiRenderer {
 
             for(int i=0;i<font.getPages();i++) {
                 fontTextures[i].bind(0);
-                shader.prime(charsToDraw[i], INSTANCE_DATA_LENGTH);
+                shader.prime(charsToDraw[i]);
                 for (char c : renderData[i].keySet()) {
                     ArrayList<RenderData> data = renderData[i].get(c);
                     for (RenderData rd : data) {

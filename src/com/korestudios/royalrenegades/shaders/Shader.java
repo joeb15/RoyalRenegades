@@ -2,9 +2,9 @@ package com.korestudios.royalrenegades.shaders;
 
 import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.graphics.VertexArray;
+import com.korestudios.royalrenegades.utils.ShaderUtils;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
-import com.korestudios.royalrenegades.utils.ShaderUtils;
 import org.joml.*;
 import org.lwjgl.BufferUtils;
 
@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.PROJECTION_MATRIX;
-import static com.korestudios.royalrenegades.constants.VariableConstants.INSTANCED_ATTRIBS;
-import static com.korestudios.royalrenegades.constants.VariableConstants.INSTANCE_DATA_LENGTH;
-import static com.korestudios.royalrenegades.constants.VariableConstants.MAX_INSTANCES;
+import static com.korestudios.royalrenegades.constants.VariableConstants.*;
 import static org.lwjgl.opengl.GL20.*;
 
 /**
@@ -27,8 +25,8 @@ public class Shader {
     private boolean enabled = false;
     private HashMap<String, Integer> uniformLocations = new HashMap<String, Integer>();
     private static ArrayList<Shader> shaders = new ArrayList<Shader>();
-    private static VertexArray rectangleInstance;
-    private static int instancedVBO;
+    private VertexArray rectangleInstance;
+    private int instancedVBO, totalData;
 
     private static float[] vertices = new float[]{
             0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0
@@ -41,6 +39,21 @@ public class Shader {
     };
 
     public Shader(String vertex, String fragment, int... parts){
+        rectangleInstance = createInstance();
+        for(int i:parts)
+            totalData+=i;
+        instancedVBO = rectangleInstance.createEmptyVBO(totalData * MAX_INSTANCES);
+        int offset=0;
+        int attrib=0;
+        for(int i:parts){
+            for(int j=0;j<i;j+=4){
+                int dif = i-j;
+                if(dif>4)
+                    dif=4;
+                rectangleInstance.addInstancedAttribute(rectangleInstance.getVAO(), instancedVBO, INSTANCED_ATTRIBS+(attrib++), dif, totalData, offset);
+                offset+=dif;
+            }
+        }
         id = ShaderUtils.load(vertex, fragment);
         shaders.add(this);
 
@@ -62,11 +75,6 @@ public class Shader {
     }
 
     public static void loadAll(){
-        rectangleInstance = Shader.createInstance();
-        instancedVBO = rectangleInstance.createEmptyVBO(INSTANCE_DATA_LENGTH * MAX_INSTANCES);
-        rectangleInstance.addInstancedAttribute(rectangleInstance.getVAO(), instancedVBO, INSTANCED_ATTRIBS, 4, INSTANCE_DATA_LENGTH, 0);
-        rectangleInstance.addInstancedAttribute(rectangleInstance.getVAO(), instancedVBO, INSTANCED_ATTRIBS + 1, 4, INSTANCE_DATA_LENGTH, 4);
-
         for(Shader s:shaders) {
             s.enable();
             s.setUniformMat4f("pr_matrix", PROJECTION_MATRIX);
@@ -75,7 +83,7 @@ public class Shader {
         }
     }
 
-    public static VertexArray createInstance(){
+    public VertexArray createInstance(){
         return new VertexArray(vertices, indices, textures);
     }
 
@@ -84,8 +92,8 @@ public class Shader {
             glDeleteProgram(s.id);
     }
 
-    public void prime(int size, int dataLength){
-        rectangleInstance.prime(size, dataLength);
+    public void prime(int size){
+        rectangleInstance.prime(size, totalData);
     }
 
     public void load(float... dataToLoad){

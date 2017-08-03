@@ -3,12 +3,9 @@ package com.korestudios.royalrenegades.entities;
 import com.korestudios.royalrenegades.graphics.Animation;
 import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.physics.CollisionBox;
-import com.korestudios.royalrenegades.shaders.Shader;
 import org.joml.Vector2f;
 
-import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
 import static com.korestudios.royalrenegades.constants.VariableConstants.*;
-import static com.korestudios.royalrenegades.constants.VariableConstants.TILE_SIZE;
 
 public class Entity {
 
@@ -17,9 +14,9 @@ public class Entity {
     protected int tileX, tileY;
     protected boolean isAnimated=false;
     protected Animation animation;
-    protected int tileHeight=1, tileWidth=1;
+    protected int tileHeight=1, tileWidth=1, width = 1, height=1;
     protected CollisionBox collisionBox;
-
+    protected float rotation = 0;
     public Entity(float x, float y, Animation animation){
         this.pos = new Vector2f(x, y);
         this.tileX=0;
@@ -91,22 +88,31 @@ public class Entity {
     }
 
     public Entity setSize(int w, int h) {
-        this.tileWidth=w;
-        this.tileHeight=h;
+        this.width=w;
+        this.height=h;
         updateCollBox();
         return this;
     }
 
-    public void update() {
+    public Entity setTileSize(int w, int h){
+        this.tileWidth=w;
+        this.tileHeight=h;
+        return this;
     }
 
-    public void loadTransform(Shader shader){
-        float sclX = tileWidth*TILE_SIZE;
-        float sclY = tileHeight*TILE_SIZE;
-        float x = pos.x*TILE_SIZE+FRAME_WIDTH/2-CENTER.x;
-        float y = pos.y*TILE_SIZE+FRAME_HEIGHT/2-CENTER.y;
-        shader.load(
-                x, y, sclX, sclY
-        );
+    public void update() {
+
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public float getRotation() {
+        return rotation;
     }
 }

@@ -10,8 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static com.korestudios.royalrenegades.constants.ErrorConstants.*;
-import static org.lwjgl.opengl.GL11.*;
+import static com.korestudios.royalrenegades.constants.ErrorConstants.FONT_NOT_FOUND_ERROR;
+import static com.korestudios.royalrenegades.constants.ErrorConstants.UNEXPECTED_FONT_FILE;
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
 
 public class BitmapFont {
 

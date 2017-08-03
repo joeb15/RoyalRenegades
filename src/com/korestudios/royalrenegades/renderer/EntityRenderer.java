@@ -2,17 +2,17 @@ package com.korestudios.royalrenegades.renderer;
 
 import com.korestudios.royalrenegades.constants.DepthConstants;
 import com.korestudios.royalrenegades.entities.Entity;
-import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.graphics.Texture;
+import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.delta;
 import static com.korestudios.royalrenegades.constants.VariableConstants.*;
-import static com.korestudios.royalrenegades.constants.VariableConstants.TILE_SIZE;
 
 public class EntityRenderer {
 
@@ -21,7 +21,7 @@ public class EntityRenderer {
     private HashMap<SpriteSheet, ArrayList<Entity>> entityRenderHash = new HashMap<SpriteSheet, ArrayList<Entity>>();
 
     public EntityRenderer(World world){
-        shader = new Shader("shaders/entity.vert", "shaders/entity.frag");
+        shader = new Shader("shaders/entity.vert", "shaders/entity.frag", 4, 4, 1);
         this.world=world;
     }
 
@@ -58,18 +58,18 @@ public class EntityRenderer {
             float partialW = 1f/t.getCols();
             float partialH = 1f/t.getRows();
             ArrayList<Entity> arrayList = entityRenderHash.get(t);
-            shader.prime(arrayList.size(), INSTANCE_DATA_LENGTH);
+            shader.prime(arrayList.size());
             for(Entity e:arrayList){
                 shader.load(
                         e.getPos().x*TILE_SIZE+FRAME_WIDTH/2-CENTER.x,
                         e.getPos().y*TILE_SIZE+FRAME_HEIGHT/2-CENTER.y,
-                        e.getTileWidth()*TILE_SIZE,
-                        e.getTileHeight()*TILE_SIZE,
-                        partialW*e.getTileX(),
-                        partialH*e.getTileY(),
-                        partialW*e.getTileWidth(),
-                        partialH*e.getTileHeight()
-
+                        e.getWidth()*TILE_SIZE,
+                        e.getHeight()*TILE_SIZE,
+                        partialW*e.getTileX()+delta,
+                        partialH*e.getTileY()+delta,
+                        partialW*e.getTileWidth()-2*delta,
+                        partialH*e.getTileHeight()-2*delta,
+                        e.getRotation()
                 );
             }
             shader.draw(arrayList.size());
