@@ -12,7 +12,6 @@ public class TileDoor extends Tile {
         DoorMetaData md = (DoorMetaData)metaData;
         world.changeChunk(md.nextChunk);
         collider.setPos(5,5);
-        System.out.println("HELLO!");
         return true;
     }
 

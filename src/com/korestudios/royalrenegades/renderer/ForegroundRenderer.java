@@ -32,7 +32,7 @@ public class ForegroundRenderer{
     public void render(){
         renderHash.clear();
         primeChunk();
-        shader.enableInstanced();
+        shader.enable();
         shader.setUniform1f("depth", DepthConstants.FOREGROUND_DEPTH);
         for(SpriteSheet t:renderHash.keySet()){
             t.bind(0);
@@ -56,7 +56,7 @@ public class ForegroundRenderer{
             shader.draw(arrayList.size());
             Texture.unbind();
         }
-        shader.disableInstanced();
+        shader.disable();
     }
 
     public void primeChunk(){

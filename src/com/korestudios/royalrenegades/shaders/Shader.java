@@ -1,7 +1,6 @@
 package com.korestudios.royalrenegades.shaders;
 
 import com.korestudios.royalrenegades.constants.ErrorConstants;
-import com.korestudios.royalrenegades.constants.GlobalVariables;
 import com.korestudios.royalrenegades.graphics.VertexArray;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
@@ -28,15 +27,27 @@ public class Shader {
     private boolean enabled = false;
     private HashMap<String, Integer> uniformLocations = new HashMap<String, Integer>();
     private static ArrayList<Shader> shaders = new ArrayList<Shader>();
-    private static VertexArray rectangle, rectangleInstance;
+    private static VertexArray rectangleInstance;
     private static int instancedVBO;
 
-    private static float[] vertices, textures;
-    private static byte[] indices;
+    private static float[] vertices = new float[]{
+            0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0
+    };
+    private static byte[] indices = new byte[]{
+            0,1,2,2,3,0
+    };
+    private static float[] textures = new float[]{
+            0,0, 0,1, 1,1, 1,0,
+    };
 
-    public Shader(String vertex, String fragment){
+    public Shader(String vertex, String fragment, int... parts){
         id = ShaderUtils.load(vertex, fragment);
         shaders.add(this);
+
+    }
+
+    public Shader(String vertex, String fragment){
+        this(vertex, fragment, INSTANCE_DATA_LENGTH);
     }
 
     public int getUniform(String name){
@@ -51,24 +62,6 @@ public class Shader {
     }
 
     public static void loadAll(){
-
-        vertices = new float[]{
-                0, 0, 0,
-                0, 1, 0,
-                1, 1, 0,
-                1, 0, 0
-        };
-        indices = new byte[]{
-                0,1,2,2,3,0
-        };
-        textures = new float[]{
-                0,0,
-                0,1,
-                1,1,
-                1,0,
-        };
-        rectangle = new VertexArray(vertices, indices, textures);
-
         rectangleInstance = Shader.createInstance();
         instancedVBO = rectangleInstance.createEmptyVBO(INSTANCE_DATA_LENGTH * MAX_INSTANCES);
         rectangleInstance.addInstancedAttribute(rectangleInstance.getVAO(), instancedVBO, INSTANCED_ATTRIBS, 4, INSTANCE_DATA_LENGTH, 0);
@@ -91,11 +84,6 @@ public class Shader {
             glDeleteProgram(s.id);
     }
 
-    public static void render(){
-        rectangle.draw();
-        GlobalVariables.triangles_drawn+=2;
-    }
-
     public void prime(int size, int dataLength){
         rectangleInstance.prime(size, dataLength);
     }
@@ -105,28 +93,14 @@ public class Shader {
     }
 
     public void enable(){
-        enable(rectangle);
-    }
-
-    public void enableInstanced(){
-        enable(rectangleInstance);
-    }
-
-    private void enable(VertexArray v){
         for(Shader s:shaders)
             s.enabled=false;
-        v.bind();
+        rectangleInstance.bind();
         glUseProgram(id);
         enabled=true;
     }
 
     public void disable(){
-        rectangle.unbind();
-        glUseProgram(0);
-        enabled=false;
-    }
-
-    public void disableInstanced(){
         rectangleInstance.unbind();
         glUseProgram(0);
         enabled=false;

@@ -67,19 +67,10 @@ public class VertexArray {
         draw(i);
     }
 
-    public void render(){
-        bind();
-        draw();
-    }
-
     public int getVAO(){
         return vao;
     }
 
-    public void draw(){
-        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_BYTE, 0);
-        GlobalVariables.triangles_drawn+=2;
-    }
 
     public void draw(int i){
         glDrawElementsInstanced(GL_TRIANGLES, count, GL_UNSIGNED_BYTE, 0, i);

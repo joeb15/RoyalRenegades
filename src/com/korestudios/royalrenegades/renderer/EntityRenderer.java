@@ -51,7 +51,7 @@ public class EntityRenderer {
     }
 
     private void draw(){
-        shader.enableInstanced();
+        shader.enable();
         shader.setUniform1f("depth", DepthConstants.ENTITY_DEPTH);
         for(SpriteSheet t:entityRenderHash.keySet()){
             t.bind(0);
@@ -75,7 +75,7 @@ public class EntityRenderer {
             shader.draw(arrayList.size());
             Texture.unbind();
         }
-        shader.disableInstanced();
+        shader.disable();
     }
 
 }
