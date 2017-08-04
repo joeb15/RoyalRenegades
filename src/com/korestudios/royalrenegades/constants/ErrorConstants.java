@@ -32,5 +32,12 @@ public class ErrorConstants {
     public static final int UNEXPECTED_FONT_FILE = 35;
     public static final int UNEXPECTED_PARAMETERS_ERROR = 36;
     public static final int TILE_REQUIRES_METADATA_ERROR = 37;
+    public static final int FRAMEBUFFER_INCOMPLETE = 38;
+    public static final int FRAMEBUFFER_MISSING_ATTACHMENT = 39;
+    public static final int FRAMEBUFFER_INCOMPLETE_DIM = 40;
+    public static final int FRAMEBUFFER_INCOMPLETE_DRAW = 41;
+    public static final int FRAMEBUFFER_INCOMPLETE_FORMAT = 42;
+    public static final int FRAMEBUFFER_INCOMPLETE_READ = 43;
+    public static final int FRAMEBUFFER_OTHER_ERROR = 44;
 
 }

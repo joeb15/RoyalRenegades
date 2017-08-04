@@ -3,6 +3,7 @@ package com.korestudios.royalrenegades;
 import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.constants.GlobalVariables;
 import com.korestudios.royalrenegades.constants.VariableConstants;
+import com.korestudios.royalrenegades.graphics.FrameBuffer;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.graphics.VertexArray;
 import com.korestudios.royalrenegades.guis.Gui;
@@ -171,6 +172,7 @@ public class Main implements Runnable{
         Texture.cleanup();
         Shader.cleanup();
         VertexArray.cleanup();
+        FrameBuffer.cleanup();
     }
 
     public void start(){

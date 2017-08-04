@@ -2,6 +2,7 @@ package com.korestudios.royalrenegades.renderer;
 
 import com.korestudios.royalrenegades.constants.DepthConstants;
 import com.korestudios.royalrenegades.entities.Entity;
+import com.korestudios.royalrenegades.graphics.FrameBuffer;
 import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.shaders.Shader;
