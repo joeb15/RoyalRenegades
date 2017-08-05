@@ -1,11 +1,6 @@
 package com.korestudios.royalrenegades.renderer;
 
-import com.korestudios.royalrenegades.constants.DepthConstants;
-import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.world.World;
-
-import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_HEIGHT;
-import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_WIDTH;
 
 public class MasterRenderer {
 

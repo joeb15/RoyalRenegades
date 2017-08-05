@@ -14,9 +14,8 @@ import org.joml.Vector4i;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.delta;
-import static com.korestudios.royalrenegades.constants.VariableConstants.*;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
+import static com.korestudios.royalrenegades.constants.VariableConstants.delta;
 
 public class ForegroundRenderer{
 

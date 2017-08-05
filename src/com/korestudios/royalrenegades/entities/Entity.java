@@ -40,7 +40,7 @@ public class Entity {
     }
 
     protected void updateCollBox(){
-        this.collisionBox = new CollisionBox(pos.x+tileWidth/4f, pos.y+5*tileHeight/8f, tileWidth/2f, tileHeight/4f);
+        this.collisionBox = new CollisionBox(pos.x+width/4f, pos.y+5*height/8f, width/2f, height/4f);
     }
 
     public void setPos(float x, float y){

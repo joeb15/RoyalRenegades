@@ -3,19 +3,16 @@ package com.korestudios.royalrenegades.graphics;
 import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
-import org.lwjgl.opengl.EXTFramebufferObject.*;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import static com.korestudios.royalrenegades.constants.ErrorConstants.*;
-import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_HEIGHT;
-import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_WIDTH;
-import static org.lwjgl.opengl.EXTFramebufferObject.*;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.FRAME_HEIGHT;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.FRAME_WIDTH;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL14.GL_DEPTH_COMPONENT24;
 import static org.lwjgl.opengl.GL14.GL_DEPTH_COMPONENT32;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL32.glFramebufferTexture;

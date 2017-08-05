@@ -2,8 +2,6 @@ package com.korestudios.royalrenegades.world.chunks;
 
 import com.korestudios.royalrenegades.entities.Entity;
 import com.korestudios.royalrenegades.entities.MainEntity;
-import com.korestudios.royalrenegades.graphics.Animation;
-import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.physics.CollisionSystem;
 import com.korestudios.royalrenegades.tiles.Tile;
 import com.korestudios.royalrenegades.tiles.TileList;
@@ -13,10 +11,6 @@ import com.korestudios.royalrenegades.tiles.metadata.MetaData;
 import com.korestudios.royalrenegades.tiles.metadata.WallMetaData;
 import com.korestudios.royalrenegades.tiles.metadata.WindowMetaData;
 import com.korestudios.royalrenegades.world.Chunk;
-
-import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
-import static com.korestudios.royalrenegades.constants.VariableConstants.*;
-import static org.lwjgl.glfw.GLFW.*;
 
 public class ChunkStart extends Chunk{
     public ChunkStart() {

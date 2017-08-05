@@ -20,7 +20,8 @@ public class Gui {
     }
 
     public void update(){
-
+        for(GuiComponent c:components)
+            c.update();
     }
 
     public void add(GuiComponent component){

@@ -12,7 +12,9 @@ import org.joml.Vector4i;
 import java.util.ArrayList;
 
 import static com.korestudios.royalrenegades.constants.ErrorConstants.TILE_REQUIRES_METADATA_ERROR;
-import static com.korestudios.royalrenegades.constants.VariableConstants.*;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.FRAME_HEIGHT;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.FRAME_WIDTH;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.TILE_SIZE;
 
 /**
  * Created by joe on 7/15/17.

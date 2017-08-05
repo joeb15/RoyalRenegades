@@ -1,10 +1,14 @@
 package com.korestudios.royalrenegades.guis.components;
 
+import org.joml.Vector2f;
+
+import java.util.ArrayList;
+
 public class GuiComponent {
 
     private boolean show;
 
-    private ClickInterface clickInterface;
+    private ArrayList<GuiComponent> children = new ArrayList<>();
 
     public GuiComponent(boolean show){
         this.show=show;
@@ -15,15 +19,23 @@ public class GuiComponent {
     }
     public void setShowing(boolean showing){
         this.show=showing;
+        for(GuiComponent c:children)
+            c.setShowing(showing);
+    }
+    public void addChild(GuiComponent component){
+        children.add(component);
     }
 
-    public boolean contains(float x, float y){
-        if(clickInterface==null)
-            return false;
-        return clickInterface.onClick(x, y);
+    public ArrayList<GuiComponent> getChildren() {
+        return children;
     }
 
-    public void setClickInterface(ClickInterface clickInterface){
-        this.clickInterface=clickInterface;
+    public void update() {
+        for(GuiComponent c:children)
+            c.update();
+    }
+
+    public boolean onClick(Vector2f pos) {
+        return false;
     }
 }

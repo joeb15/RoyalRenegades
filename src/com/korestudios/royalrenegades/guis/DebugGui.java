@@ -5,9 +5,7 @@ import com.korestudios.royalrenegades.guis.components.TextComponent;
 import org.joml.Vector4f;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.displayed_tps;
 import static com.korestudios.royalrenegades.font.BitmapFont.FONT_COURIER;
-import static com.korestudios.royalrenegades.font.BitmapFont.FONT_DEJAVU;
 import static com.korestudios.royalrenegades.utils.MathUtils.round;
 import static com.korestudios.royalrenegades.utils.MathUtils.toTimeString;
 

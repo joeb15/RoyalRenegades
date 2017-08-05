@@ -5,6 +5,8 @@ import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.physics.CollisionSystem;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.ENTITY_SPEED;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.TILE_SIZE;
 import static com.korestudios.royalrenegades.constants.VariableConstants.*;
 import static com.korestudios.royalrenegades.utils.MathUtils.moveCloser;
 import static org.lwjgl.glfw.GLFW.*;

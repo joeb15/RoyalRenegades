@@ -2,12 +2,10 @@ package com.korestudios.royalrenegades;
 
 import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.constants.GlobalVariables;
-import com.korestudios.royalrenegades.constants.VariableConstants;
 import com.korestudios.royalrenegades.graphics.FrameBuffer;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.graphics.VertexArray;
 import com.korestudios.royalrenegades.guis.DebugGui;
-import com.korestudios.royalrenegades.guis.Gui;
 import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.guis.SettingGui;
 import com.korestudios.royalrenegades.input.Input;
@@ -25,7 +23,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLUtil;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
-import static com.korestudios.royalrenegades.constants.VariableConstants.*;
+import static com.korestudios.royalrenegades.constants.VariableConstants.FRAME_TITLE;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -42,8 +40,6 @@ public class Main implements Runnable{
         glfwPollEvents();
         TimerUtils.update();
         GuiManager.update();
-        if(Input.isMouseButtonDown(GLFW_MOUSE_BUTTON_1))
-            GuiManager.onClick(Input.getCursorPos());
         world.update();
         update_time_ns = TimeStats.stop("Update");
     }
@@ -118,7 +114,7 @@ public class Main implements Runnable{
         int[] monW = new int[1];
         int[] monH = new int[1];
         glfwGetMonitorPhysicalSize(glfwGetPrimaryMonitor(), monW, monH);
-        VariableConstants.TILE_SIZE = (int) (25.4 * TILE_SIZE_INCHES * vidMode.width()/monW[0]);
+        TILE_SIZE = (int) (25.4 * TILE_SIZE_INCHES * vidMode.width()/monW[0]);
         Shader.loadAll();
     }
 

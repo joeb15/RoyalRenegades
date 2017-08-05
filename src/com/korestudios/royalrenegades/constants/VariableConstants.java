@@ -3,22 +3,11 @@ package com.korestudios.royalrenegades.constants;
 public class VariableConstants {
 
     /**
-     * ENTITY VARIABLES
+     * DATA VARIABLES
      */
-    public static final float ENTITY_SPEED = 2f/60f;
 
-    /**
-     * FRAME VARIABLES
-     */
-    public static int FRAME_WIDTH = 1280;
-    public static int FRAME_HEIGHT = 720;
     public static final String FRAME_TITLE = "Royal Renegades by Dariella Torres and Joe Banko";
 
-    /**
-     * WORLD VARIABLES
-     */
-    public static int TILE_SIZE;
-    public static float TILE_SIZE_INCHES = 0.25f;
 
     /**
      * MODEL VARIABLES
@@ -33,6 +22,7 @@ public class VariableConstants {
     public static final int DEFAULT_SPRITE_SHEET_ROWS = 16;
     public static final int DEFAULT_SPRITE_SHEET_COLS = 16;
 
-    public static boolean limitFrameRate = true;
+    public static final float delta = 0.00001f;
+
 
 }

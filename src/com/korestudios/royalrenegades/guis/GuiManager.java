@@ -1,8 +1,11 @@
 package com.korestudios.royalrenegades.guis;
 
+import com.korestudios.royalrenegades.input.Input;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
+
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
 
 public class GuiManager {
 
@@ -23,6 +26,8 @@ public class GuiManager {
     }
 
     public static void update() {
+        if(Input.isMouseButtonDown(GLFW_MOUSE_BUTTON_1))
+            onClick(Input.getCursorPos());
         for(Gui g:guis)
             g.update();
     }

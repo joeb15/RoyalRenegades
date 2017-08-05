@@ -3,7 +3,8 @@ package com.korestudios.royalrenegades.renderer;
 import com.korestudios.royalrenegades.constants.DepthConstants;
 import com.korestudios.royalrenegades.font.BitmapFont;
 import com.korestudios.royalrenegades.graphics.Texture;
-import com.korestudios.royalrenegades.guis.*;
+import com.korestudios.royalrenegades.guis.Gui;
+import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.guis.components.BackgroundComponent;
 import com.korestudios.royalrenegades.guis.components.GuiComponent;
 import com.korestudios.royalrenegades.guis.components.TextComponent;
@@ -51,12 +52,18 @@ public class GuiRenderer {
         for(Gui g:guis){
             ArrayList<GuiComponent> guiComponents = g.getComponents();
             for(GuiComponent guiComponent:guiComponents){
-                if(guiComponent instanceof TextComponent)
-                    processTextComponent((TextComponent) guiComponent);
-                if(guiComponent instanceof BackgroundComponent)
-                    processBackgroundComponent((BackgroundComponent) guiComponent);
+                processComponent(guiComponent);
             }
         }
+    }
+
+    private void processComponent(GuiComponent guiComponent){
+        if(guiComponent instanceof TextComponent)
+            processTextComponent((TextComponent) guiComponent);
+        if(guiComponent instanceof BackgroundComponent)
+            processBackgroundComponent((BackgroundComponent) guiComponent);
+        for(GuiComponent gc:guiComponent.getChildren())
+            processComponent(gc);
     }
 
     private void processBackgroundComponent(BackgroundComponent backgroundComponent){
