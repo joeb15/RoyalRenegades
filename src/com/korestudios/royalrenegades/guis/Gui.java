@@ -1,31 +1,37 @@
 package com.korestudios.royalrenegades.guis;
 
-import java.util.ArrayList;
+import com.korestudios.royalrenegades.guis.components.GuiComponent;
+import org.joml.Vector2f;
 
-import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
-import static com.korestudios.royalrenegades.font.BitmapFont.FONT_DEJAVU;
-import static com.korestudios.royalrenegades.utils.MathUtils.round;
-import static com.korestudios.royalrenegades.utils.MathUtils.toTimeString;
+import java.util.ArrayList;
 
 public class Gui {
 
-    private ArrayList<TextComponent> textComponents = new ArrayList<TextComponent>();
+    private ArrayList<GuiComponent> components = new ArrayList<>();
 
-    public Gui(){
-        add(new TextComponent(()->{return "Render: " + toTimeString(displayed_render_time) + "\n" +
-                "Update: " + toTimeString(displayed_update_time) + "\n" +
-                "Tris: " + triangles_drawn_last_frame + "\n" +
-                "Fps: " + round(displayed_fps, 1) + "\n" +
-                "Tps: " + round(displayed_tps, 1);},
-                FONT_DEJAVU, 0, 0, 25, true));
+    public void show(){
+        for(GuiComponent c:components)
+            c.setShowing(true);
     }
 
-    public void add(TextComponent textComponent){
-        textComponents.add(textComponent);
+    public void hide(){
+        for(GuiComponent c:components)
+            c.setShowing(false);
     }
 
-    public ArrayList<TextComponent> getTextComponents(){
-        return textComponents;
+    public void update(){
+
     }
 
+    public void add(GuiComponent component){
+        components.add(component);
+    }
+
+    public ArrayList<GuiComponent> getComponents(){
+        return components;
+    }
+
+    public boolean onClick(Vector2f cursorPos) {
+        return false;
+    }
 }

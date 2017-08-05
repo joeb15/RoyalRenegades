@@ -6,8 +6,10 @@ import com.korestudios.royalrenegades.constants.VariableConstants;
 import com.korestudios.royalrenegades.graphics.FrameBuffer;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.graphics.VertexArray;
+import com.korestudios.royalrenegades.guis.DebugGui;
 import com.korestudios.royalrenegades.guis.Gui;
 import com.korestudios.royalrenegades.guis.GuiManager;
+import com.korestudios.royalrenegades.guis.SettingGui;
 import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.renderer.MasterRenderer;
 import com.korestudios.royalrenegades.shaders.Shader;
@@ -33,18 +35,20 @@ public class Main implements Runnable{
     private Thread thread;
     private boolean running;
     private World world;
-    private GuiManager guiManager;
     private MasterRenderer masterRenderer;
 
-    public void update(){
+    private void update(){
         TimeStats.start("Update");
         glfwPollEvents();
         TimerUtils.update();
+        GuiManager.update();
+        if(Input.isMouseButtonDown(GLFW_MOUSE_BUTTON_1))
+            GuiManager.onClick(Input.getCursorPos());
         world.update();
         update_time_ns = TimeStats.stop("Update");
     }
 
-    public void render(){
+    private void render(){
         TimeStats.start("Render");
         triangles_drawn_last_frame = triangles_drawn;
         triangles_drawn=0;
@@ -54,17 +58,19 @@ public class Main implements Runnable{
         render_time_ns = TimeStats.stop("Render");
     }
 
-    public void init(){
+    private void init(){
         createWindow();
         Input.init(window);
         world = new World();
-        guiManager = new GuiManager();
-        guiManager.addGui(new Gui());
-        masterRenderer = new MasterRenderer(world, guiManager);
+
+        GuiManager.addGui(new DebugGui());
+        GuiManager.addGui(new SettingGui());
+
+        masterRenderer = new MasterRenderer(world);
         resize(FRAME_WIDTH, FRAME_HEIGHT);
     }
 
-    public void createWindow(){
+    private void createWindow(){
         TimeStats.start("CreateWindow");
         if(!glfwInit()){
             Logger.log(PRIORITY.CRITICAL_ERRORS, "Main", "GLFW Initialization Failed", ErrorConstants.GLFW_INITIALIZATION_ERROR, true);

@@ -37,6 +37,7 @@ public class Shader {
     private static float[] textures = new float[]{
             0,0, 0,1, 1,1, 1,0,
     };
+    private boolean usesTexture = true;
 
     public Shader(String vertex, String fragment, int... parts){
         rectangleInstance = createInstance();
@@ -78,7 +79,8 @@ public class Shader {
         for(Shader s:shaders) {
             s.enable();
             s.setUniformMat4f("pr_matrix", PROJECTION_MATRIX);
-            s.setUniform1i("tex", 0);
+            if(s.usesTexture)
+                s.setUniform1i("tex", 0);
             s.disable();
         }
     }
@@ -94,6 +96,11 @@ public class Shader {
 
     public void prime(int size){
         rectangleInstance.prime(size, totalData);
+    }
+
+    public void draw(int size) {
+        rectangleInstance.updateVBO(instancedVBO);
+        rectangleInstance.render(size);
     }
 
     public void load(float... dataToLoad){
@@ -166,8 +173,8 @@ public class Shader {
         glUniform3f(getUniform(name), x, y, z);
     }
 
-    public void draw(int size) {
-        rectangleInstance.updateVBO(instancedVBO);
-        rectangleInstance.render(size);
+    public Shader doesntUseTexture() {
+        this.usesTexture=false;
+        return this;
     }
 }

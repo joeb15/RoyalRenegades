@@ -4,6 +4,7 @@ import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.utils.BitmapData;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
+import org.joml.Vector2f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,6 +18,7 @@ import static org.lwjgl.opengl.GL11.GL_LINEAR;
 public class BitmapFont {
 
     public static final BitmapFont FONT_DEJAVU = new BitmapFont("res/fonts/dejavu/Dejavu.fnt");
+    public static final BitmapFont FONT_COURIER = new BitmapFont("res/fonts/courier/Courier.fnt");
 
     private HashMap<Character, BitmapData> charData = new HashMap<>();
 
@@ -83,6 +85,39 @@ public class BitmapFont {
         } catch (IOException e) {
             Logger.log(PRIORITY.CRITICAL_ERRORS, "BitmapFont", "Unable to createChunk font file: "+fontFile+"\n"+e.getMessage(), FONT_NOT_FOUND_ERROR, true);
         }
+    }
+
+    public Vector2f getStringSize(String text, float size){
+        return new Vector2f(getStringWidth(text, size), getStringHeight(text, size));
+    }
+
+    public float getStringWidth(String text, float size){
+        String[] parts = text.split("\n");
+        float maxW=0;
+        for(int j=0;j<parts.length;j++) {
+            char[] chars = parts[j].toCharArray();
+            float scale = size / getFontSize();
+            float x = 0;
+            for (int i = 0; i < chars.length; i++) {
+                BitmapData data = getCharData(chars[i]);
+                if (data == null)
+                    continue;
+                if (i != 0) {
+                    Integer integer = data.kernings.get(chars[i - 1]);
+                    if (integer != null) {
+                        x += integer * scale;
+                    }
+                }
+                x += data.advance * scale;
+            }
+            if(x>maxW)maxW=x;
+        }
+        return maxW;
+    }
+
+    public float getStringHeight(String text, float size){
+        String[] parts = text.split("\n");
+        return parts.length * size;
     }
 
     public int getFontSize() {

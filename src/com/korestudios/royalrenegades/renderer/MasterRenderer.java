@@ -13,10 +13,10 @@ public class MasterRenderer {
     private EntityRenderer entityRenderer;
     private GuiRenderer guiRenderer;
 
-    public MasterRenderer(World world, GuiManager guiManager){
+    public MasterRenderer(World world){
         foregroundRenderer = new ForegroundRenderer(world);
         entityRenderer = new EntityRenderer(world);
-        guiRenderer = new GuiRenderer(guiManager);
+        guiRenderer = new GuiRenderer();
     }
 
     public void render(){

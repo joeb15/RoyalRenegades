@@ -3,34 +3,37 @@ package com.korestudios.royalrenegades.renderer;
 import com.korestudios.royalrenegades.constants.DepthConstants;
 import com.korestudios.royalrenegades.font.BitmapFont;
 import com.korestudios.royalrenegades.graphics.Texture;
-import com.korestudios.royalrenegades.guis.Gui;
-import com.korestudios.royalrenegades.guis.GuiManager;
-import com.korestudios.royalrenegades.guis.TextComponent;
+import com.korestudios.royalrenegades.guis.*;
+import com.korestudios.royalrenegades.guis.components.BackgroundComponent;
+import com.korestudios.royalrenegades.guis.components.GuiComponent;
+import com.korestudios.royalrenegades.guis.components.TextComponent;
 import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.utils.BitmapData;
 import com.korestudios.royalrenegades.utils.RenderData;
 import org.joml.Vector2f;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GuiRenderer {
 
-    private Shader shader;
-
-    private GuiManager guiManager;
+    private Shader fontShader, guiShader;
 
     private HashMap<BitmapFont, HashMap<Character, ArrayList<RenderData>>[]> textRenderData = new HashMap<>();
     private HashMap<BitmapFont, int[]> charsToDrawHash = new HashMap<>();
 
-    public GuiRenderer(GuiManager guiManager){
-        this.guiManager = guiManager;
-        shader = new Shader("shaders/font.vert", "shaders/font.frag");
+    private ArrayList<BackgroundComponent> backgroundComponents = new ArrayList<>();
+
+    public GuiRenderer(){
+        fontShader = new Shader("shaders/font.vert", "shaders/font.frag", 4, 4);
+        guiShader = new Shader("shaders/gui.vert", "shaders/gui.frag", 4, 4).doesntUseTexture();
     }
 
     public void render(){
         clear();
         process();
+        renderBackgrounds();
         renderText();
     }
 
@@ -40,20 +43,26 @@ public class GuiRenderer {
             for (int i = 0; i < font.getPages(); i++)
                 renderData[i].clear();
         }
+        backgroundComponents.clear();
     }
 
     private void process(){
-        ArrayList<Gui> guis = guiManager.getGuis();
+        ArrayList<Gui> guis = GuiManager.getGuis();
         for(Gui g:guis){
-            processGui(g);
+            ArrayList<GuiComponent> guiComponents = g.getComponents();
+            for(GuiComponent guiComponent:guiComponents){
+                if(guiComponent instanceof TextComponent)
+                    processTextComponent((TextComponent) guiComponent);
+                if(guiComponent instanceof BackgroundComponent)
+                    processBackgroundComponent((BackgroundComponent) guiComponent);
+            }
         }
     }
 
-    private void processGui(Gui g) {
-        ArrayList<TextComponent> textComponents = g.getTextComponents();
-        for(TextComponent textComponent:textComponents){
-            processTextComponent(textComponent);
-        }
+    private void processBackgroundComponent(BackgroundComponent backgroundComponent){
+        if(!backgroundComponent.isShowing())
+            return;
+        backgroundComponents.add(backgroundComponent);
     }
 
     private void processTextComponent(TextComponent textComponent) {
@@ -87,8 +96,7 @@ public class GuiRenderer {
         for(int i=0;i<chars.length;i++){
             BitmapData data = font.getCharData(chars[i]);
             if(data == null)
-                data = font.getCharData((char)0);
-
+                continue;
             if(!renderData[data.page].containsKey(chars[i]))
                 renderData[data.page].put(chars[i], new ArrayList<RenderData>());
 
@@ -112,7 +120,8 @@ public class GuiRenderer {
     }
 
     private void renderText(){
-        shader.setUniform1f("depth", DepthConstants.GUI_TEXT_DEPTH);
+        fontShader.enable();
+        fontShader.setUniform1f("depth", DepthConstants.GUI_TEXT_DEPTH);
         OUTLINE(1,1,1,0,0,0);
         for(BitmapFont font:textRenderData.keySet()) {
             Texture[] fontTextures = font.getFontTextures();
@@ -121,11 +130,11 @@ public class GuiRenderer {
 
             for(int i=0;i<font.getPages();i++) {
                 fontTextures[i].bind(0);
-                shader.prime(charsToDraw[i]);
+                fontShader.prime(charsToDraw[i]);
                 for (char c : renderData[i].keySet()) {
                     ArrayList<RenderData> data = renderData[i].get(c);
                     for (RenderData rd : data) {
-                        shader.load(
+                        fontShader.load(
                                 rd.pos.x,
                                 rd.pos.y,
                                 rd.size.x,
@@ -136,66 +145,62 @@ public class GuiRenderer {
                                 rd.uvsize.y);
                     }
                 }
-                shader.draw(charsToDraw[i]);
+                fontShader.draw(charsToDraw[i]);
                 charsToDraw[i]=0;
                 Texture.unbind();
             }
         }
+        fontShader.disable();
+    }
+
+    private void renderBackgrounds(){
+        guiShader.enable();
+        guiShader.setUniform1f("depth", DepthConstants.GUI_DEPTH);
+        guiShader.prime(backgroundComponents.size());
+        for(BackgroundComponent backgroundComponent:backgroundComponents){
+            Vector4f color = backgroundComponent.getColor();
+            guiShader.load(
+                    backgroundComponent.getX(),
+                    backgroundComponent.getY(),
+                    backgroundComponent.getW(),
+                    backgroundComponent.getH(),
+                    color.x,
+                    color.y,
+                    color.z,
+                    color.w
+            );
+        }
+        guiShader.draw(backgroundComponents.size());
+        guiShader.disable();
     }
 
     private void OUTLINE(float r1, float g1, float b1, float r2, float g2, float b2) {
-        shader.setUniform1f("width", .5f);
-        shader.setUniform1f("fade", .1f);
-        shader.setUniform3f("color", r1,g1,b1);
-        shader.setUniform1f("width2", .5f);
-        shader.setUniform1f("fade2", .2f);
-        shader.setUniform3f("color2", r2,g2,b2);
-        shader.setUniform2f("offset", 0,0);
+        fontShader.setUniform1f("width", .5f);
+        fontShader.setUniform1f("fade", .1f);
+        fontShader.setUniform3f("color", r1,g1,b1);
+        fontShader.setUniform1f("width2", .5f);
+        fontShader.setUniform1f("fade2", .2f);
+        fontShader.setUniform3f("color2", r2,g2,b2);
+        fontShader.setUniform2f("offset", 0,0);
     }
 
     private void DROPSHADOW(float r1, float g1, float b1, float r2, float g2, float b2, float x, float y) {
-        shader.setUniform1f("width", .5f);
-        shader.setUniform1f("fade", .1f);
-        shader.setUniform3f("color", r1,g1,b1);
-        shader.setUniform1f("width2", .5f);
-        shader.setUniform1f("fade2", .1f);
-        shader.setUniform3f("color2", r2,g2,b2);
-        shader.setUniform2f("offset", x, y);
+        fontShader.setUniform1f("width", .5f);
+        fontShader.setUniform1f("fade", .1f);
+        fontShader.setUniform3f("color", r1,g1,b1);
+        fontShader.setUniform1f("width2", .5f);
+        fontShader.setUniform1f("fade2", .1f);
+        fontShader.setUniform3f("color2", r2,g2,b2);
+        fontShader.setUniform2f("offset", x, y);
     }
 
     private void GLOW(float r1, float g1, float b1, float r2, float g2, float b2) {
-        shader.setUniform1f("width", .5f);
-        shader.setUniform1f("fade", .1f);
-        shader.setUniform3f("color", r1,g1,b1);
-        shader.setUniform1f("width2", .3f);
-        shader.setUniform1f("fade2", .6f);
-        shader.setUniform3f("color2", r2,g2,b2);
-        shader.setUniform2f("offset", 0,0);
+        fontShader.setUniform1f("width", .5f);
+        fontShader.setUniform1f("fade", .1f);
+        fontShader.setUniform3f("color", r1,g1,b1);
+        fontShader.setUniform1f("width2", .3f);
+        fontShader.setUniform1f("fade2", .6f);
+        fontShader.setUniform3f("color2", r2,g2,b2);
+        fontShader.setUniform2f("offset", 0,0);
     }
-
-    private Vector2f getSize(BitmapFont font, String text, float size){
-        String[] parts = text.split("\n");
-        float maxW=0;
-        float h = parts.length * size;
-        for(int j=0;j<parts.length;j++) {
-            char[] chars = text.toCharArray();
-            float scale = size / font.getFontSize();
-            float x = 0;
-            for (int i = 0; i < chars.length; i++) {
-                BitmapData data = font.getCharData(chars[i]);
-                if (data == null)
-                    data = font.getCharData((char) 0);
-                if (i != 0) {
-                    Integer integer = data.kernings.get(chars[i - 1]);
-                    if (integer != null) {
-                        x += integer * scale;
-                    }
-                }
-                x += data.advance * scale;
-            }
-            if(x>maxW)maxW=x;
-        }
-        return new Vector2f(maxW, h);
-    }
-
 }

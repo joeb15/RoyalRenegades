@@ -26,7 +26,7 @@ public class MathUtils {
             int val = (int)(nanoSeconds/10);
             int seconds = val/100;
             int decimal = val%100;
-            return seconds+"."+decimal+"\u00B5s";
+            return seconds+"."+decimal+"us";
         }else{
             int val = (int)(nanoSeconds*100);
             int seconds = val/100;
