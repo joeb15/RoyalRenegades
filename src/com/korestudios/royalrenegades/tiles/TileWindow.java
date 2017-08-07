@@ -8,6 +8,7 @@ public class TileWindow extends Tile {
     public static final int TOP = 0x01;
     public static final int LEFT = 0x02;
     public static final int RIGHT = 0x03;
+    public static final int BOTTOM = 0x04;
     private static final int LOC_MASK = 0x0F;
 
     public static final int CENTER = 0x10;
@@ -43,6 +44,7 @@ public class TileWindow extends Tile {
             case TOP:return 0;
             case LEFT:return 90;
             case RIGHT:return -90;
+            case BOTTOM:return 180;
         }
         return 0;
     }
