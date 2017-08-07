@@ -30,15 +30,4 @@ public class TileDoor extends Tile {
     public int getTileY(MetaData metaData){
         return 0;
     }
-
-    @Override
-    public void onPlace(Chunk chunk, Entity placer, MetaData metaData){
-        if(placer instanceof MainEntity)
-            System.out.println("HELLO WORLD");
-    }
-    @Override
-    public void onDestroy(Chunk chunk, Entity destroyer, MetaData metaData){
-        if(destroyer instanceof MainEntity)
-            System.out.println("GOODBYE WORLD");
-    }
 }
