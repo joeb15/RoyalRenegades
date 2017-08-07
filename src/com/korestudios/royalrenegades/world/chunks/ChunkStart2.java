@@ -13,8 +13,8 @@ import com.korestudios.royalrenegades.tiles.metadata.WindowMetaData;
 import com.korestudios.royalrenegades.world.Chunk;
 import org.joml.Vector2f;
 
-public class ChunkStart extends Chunk{
-    public ChunkStart() {
+public class ChunkStart2 extends Chunk{
+    public ChunkStart2() {
         super(20,12);
     }
 
@@ -30,25 +30,23 @@ public class ChunkStart extends Chunk{
             }
         }
 
-        setTile(2,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_L, true));
-        setTile(3,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
-        setTile(4,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
-        setTile(5,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
-        setTile(6,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
-        setTile(7,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_R, true));
+        setTile(2,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_L, false));
+        setTile(3,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
+        setTile(4,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
+        setTile(5,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
+        setTile(6,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
+        setTile(7,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_R, false));
 
-        setTile(9,0,TileList.tileDoor, new DoorMetaData(true, "Start2", new Vector2f(4,4)));
-        setTile(10,0,TileList.tileDoor, new DoorMetaData(false, "Start2", new Vector2f(12,4)));
+        setTile(9,0,TileList.tileDoor, new DoorMetaData(true, "Start", new Vector2f(4,4)));
+        setTile(10,0,TileList.tileDoor, new DoorMetaData(false, "Start", new Vector2f(12,4)));
 
-        setTile(12,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_L, false));
-        setTile(13,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
-        setTile(14,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
-        setTile(15,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
-        setTile(16,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, false));
-        setTile(17,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_R, false));
+        setTile(12,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_L, true));
+        setTile(13,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
+        setTile(14,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
+        setTile(15,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
+        setTile(16,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.CENTER, true));
+        setTile(17,0, TileList.tileWindow, new WindowMetaData(TileWindow.TOP|TileWindow.END_R, true));
         clearCorners();
-
-        entities.add(new MainEntity(4.5f, 4.5f));
     }
 
     public void update(){
