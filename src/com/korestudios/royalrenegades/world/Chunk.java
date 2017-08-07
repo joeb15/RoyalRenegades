@@ -1,20 +1,22 @@
 package com.korestudios.royalrenegades.world;
 
 import com.korestudios.royalrenegades.entities.Entity;
+import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.tiles.Tile;
 import com.korestudios.royalrenegades.tiles.TileList;
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.joml.Vector4i;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.korestudios.royalrenegades.constants.ErrorConstants.TILE_REQUIRES_METADATA_ERROR;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.FRAME_HEIGHT;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.FRAME_WIDTH;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.TILE_SIZE;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
 
 /**
  * Created by joe on 7/15/17.
@@ -24,7 +26,7 @@ public abstract class Chunk {
     private Tile[][] tiles;
     protected int w;
     protected int h;
-    protected ArrayList<Entity> entities = new ArrayList<Entity>();
+    protected CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<>();
     private MetaData[][] metaData;
 
     public Chunk(int w, int h){
@@ -65,11 +67,28 @@ public abstract class Chunk {
         return new Vector4i(minX, minY, maxX, maxY);
     }
 
-    public void setTile(int x, int y, Tile t){
+    public void removeTile(int x, int y, Entity destroyer){
+        Tile t = getTile(x, y);
+        MetaData metaData = getMetadata(x, y);
+        setTile(x, y, TileList.tileVoid);
+        t.onDestroy(this, destroyer, metaData);
+    }
+
+    public void placeTile(int x, int y, Tile t, Entity placer){
+        placeTile(x,y,t,placer, new MetaData());
+    }
+
+    public void placeTile(int x, int y, Tile t, Entity placer, MetaData metaData){
+        removeTile(x, y, placer);
+        setTile(x, y, t, metaData);
+        t.onPlace(this, placer, metaData);
+    }
+
+    protected void setTile(int x, int y, Tile t){
         setTile(x, y, t, new MetaData());
     }
 
-    public void setTile(int x, int y, Tile t, MetaData metaData){
+    protected void setTile(int x, int y, Tile t, MetaData metaData){
         if(t.hasMetaData()&&metaData==null)
             Logger.log(PRIORITY.ERRORS, "Chunk", "Tile was not supplied metadata even though it was required", TILE_REQUIRES_METADATA_ERROR, false);
         tiles[y][x]=t;
@@ -87,7 +106,7 @@ public abstract class Chunk {
         return TileList.tileVoid;
     }
 
-    public ArrayList<Entity> getEntities() {
+    public CopyOnWriteArrayList<Entity> getEntities() {
         return entities;
     }
 
@@ -120,5 +139,19 @@ public abstract class Chunk {
 
     protected MetaData[][] getMetaData(){
         return metaData;
+    }
+
+    public Entity removeEntity(Entity collider) {
+        entities.remove(collider);
+        return collider;
+    }
+
+    public void addEntity(Entity entity){
+        entities.add(entity);
+    }
+
+    public static Vector2i getMouseTile(){
+        Vector2f pos = Input.getCursorPos();
+        return new Vector2i((int)((pos.x+CENTER.x-FRAME_WIDTH/2)/TILE_SIZE), (int)((pos.y+CENTER.y-FRAME_HEIGHT/2)/TILE_SIZE));
     }
 }

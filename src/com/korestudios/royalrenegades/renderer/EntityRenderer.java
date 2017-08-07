@@ -9,6 +9,7 @@ import com.korestudios.royalrenegades.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
 import static com.korestudios.royalrenegades.constants.VariableConstants.delta;
@@ -35,7 +36,7 @@ public class EntityRenderer {
     }
 
     private void process(){
-        ArrayList<Entity> entities = world.getCurrChunk().getEntities();
+        CopyOnWriteArrayList<Entity> entities = world.getCurrChunk().getEntities();
         for(Entity e:entities)
             processEntity(e);
 
