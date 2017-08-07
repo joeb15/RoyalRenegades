@@ -31,8 +31,4 @@ public class Gui {
     public ArrayList<GuiComponent> getComponents(){
         return components;
     }
-
-    public boolean onClick(Vector2f cursorPos) {
-        return false;
-    }
 }

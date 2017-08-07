@@ -19,15 +19,7 @@ public class GuiManager {
         return guis;
     }
 
-    public static void onClick(Vector2f cursorPos) {
-        for(Gui g:guis)
-            if(g.onClick(cursorPos))
-                return;
-    }
-
     public static void update() {
-        if(Input.isMouseButtonDown(GLFW_MOUSE_BUTTON_1))
-            onClick(Input.getCursorPos());
         for(Gui g:guis)
             g.update();
     }

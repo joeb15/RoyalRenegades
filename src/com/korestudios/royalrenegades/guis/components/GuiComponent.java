@@ -34,8 +34,4 @@ public class GuiComponent {
         for(GuiComponent c:children)
             c.update();
     }
-
-    public boolean onClick(Vector2f pos) {
-        return false;
-    }
 }

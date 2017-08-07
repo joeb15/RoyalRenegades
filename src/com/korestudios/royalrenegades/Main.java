@@ -38,6 +38,7 @@ public class Main implements Runnable{
     private void update(){
         TimeStats.start("Update");
         glfwPollEvents();
+        Input.update();
         TimerUtils.update();
         GuiManager.update();
         world.update();

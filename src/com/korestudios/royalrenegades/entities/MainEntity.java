@@ -3,10 +3,14 @@ package com.korestudios.royalrenegades.entities;
 import com.korestudios.royalrenegades.graphics.Animation;
 import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.physics.CollisionSystem;
+import com.korestudios.royalrenegades.tiles.TileList;
+import com.korestudios.royalrenegades.tiles.metadata.DoorMetaData;
+import com.korestudios.royalrenegades.world.Chunk;
+import com.korestudios.royalrenegades.world.World;
+import org.joml.Vector2f;
+import org.joml.Vector2i;
 
-import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.ENTITY_SPEED;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.TILE_SIZE;
+import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
 import static com.korestudios.royalrenegades.constants.VariableConstants.*;
 import static com.korestudios.royalrenegades.utils.MathUtils.moveCloser;
 import static org.lwjgl.glfw.GLFW.*;
@@ -19,11 +23,14 @@ public class MainEntity extends Entity{
                         new int[]{6, 7},new int[]{0, 0}, 10f));
         setSize(2,2);
         updateCollBox();
-    }
-
-    @Override
-    public void setPos(float x, float y){
-        super.setPos(x, y);
+        Input.addListener(GLFW_MOUSE_BUTTON_LEFT, Input.TYPE_MOUSE_RELEASE, ()->{
+            Vector2i pos = Chunk.getMouseTile();
+            World.ACTIVE_CHUNK.removeTile(pos.x, pos.y, this);
+        });
+        Input.addListener(GLFW_MOUSE_BUTTON_RIGHT, Input.TYPE_MOUSE_RELEASE, ()->{
+            Vector2i pos = Chunk.getMouseTile();
+            World.ACTIVE_CHUNK.placeTile(pos.x, pos.y, TileList.tileDoor, this, new DoorMetaData(true, "Start2", new Vector2f(pos.x/TILE_SIZE, pos.y/TILE_SIZE)));
+        });
     }
 
     @Override
@@ -47,12 +54,6 @@ public class MainEntity extends Entity{
         }
         if(Input.isKeyDown(GLFW_KEY_D)){
             x+=ENTITY_SPEED;
-        }
-        if(Input.isKeyDown(GLFW_KEY_E)){
-            rotation+=3;
-        }
-        if(Input.isKeyDown(GLFW_KEY_Q)){
-            rotation-=3;
         }
         move(x, 0);
         if (CollisionSystem.collides(this))
