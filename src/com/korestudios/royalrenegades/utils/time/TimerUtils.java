@@ -31,6 +31,10 @@ public class TimerUtils {
         return currID++;
     }
 
+    public static void clearTimers() {
+        timers.clear();
+    }
+
     private static class TimerStorage {
         public long nextTime;
         public long interval;

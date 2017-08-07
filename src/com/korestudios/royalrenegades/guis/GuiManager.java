@@ -23,4 +23,8 @@ public class GuiManager {
         for(Gui g:guis)
             g.update();
     }
+
+    public static void clearGuis() {
+        guis.clear();
+    }
 }

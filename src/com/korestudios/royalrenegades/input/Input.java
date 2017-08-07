@@ -66,6 +66,10 @@ public class Input {
         }
     }
 
+    public static void clearListeners() {
+        inputListenersData.clear();
+    }
+
     private static class InputListenersData{
         private ArrayList<InputListener> keyUpListeners = new ArrayList<>();
         private ArrayList<InputListener> keyDownListeners = new ArrayList<>();

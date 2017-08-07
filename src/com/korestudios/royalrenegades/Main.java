@@ -11,6 +11,7 @@ import com.korestudios.royalrenegades.guis.SettingGui;
 import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.renderer.MasterRenderer;
 import com.korestudios.royalrenegades.shaders.Shader;
+import com.korestudios.royalrenegades.states.StateManager;
 import com.korestudios.royalrenegades.utils.ErrorCallback;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
@@ -32,8 +33,6 @@ public class Main implements Runnable{
     private long window;
     private Thread thread;
     private boolean running;
-    private World world;
-    private MasterRenderer masterRenderer;
 
     private void update(){
         TimeStats.start("Update");
@@ -41,7 +40,7 @@ public class Main implements Runnable{
         Input.update();
         TimerUtils.update();
         GuiManager.update();
-        world.update();
+        StateManager.CURRENT_STATE.update();
         update_time_ns = TimeStats.stop("Update");
     }
 
@@ -50,7 +49,7 @@ public class Main implements Runnable{
         triangles_drawn_last_frame = triangles_drawn;
         triangles_drawn=0;
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        masterRenderer.render();
+        StateManager.CURRENT_STATE.render();
         glfwSwapBuffers(window);
         render_time_ns = TimeStats.stop("Render");
     }
@@ -58,12 +57,7 @@ public class Main implements Runnable{
     private void init(){
         createWindow();
         Input.init(window);
-        world = new World();
-
-        GuiManager.addGui(new DebugGui());
-        GuiManager.addGui(new SettingGui());
-
-        masterRenderer = new MasterRenderer(world);
+        StateManager.CURRENT_STATE.init();
         resize(FRAME_WIDTH, FRAME_HEIGHT);
     }
 
@@ -172,6 +166,7 @@ public class Main implements Runnable{
     }
 
     private void cleanup() {
+        StateManager.CURRENT_STATE.destroy();
         Texture.cleanup();
         Shader.cleanup();
         VertexArray.cleanup();
