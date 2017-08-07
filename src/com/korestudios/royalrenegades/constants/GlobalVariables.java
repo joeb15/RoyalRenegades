@@ -38,7 +38,7 @@ public class GlobalVariables {
     public static double displayed_fps=0;
     public static double displayed_tps=0;
     public static long time_between_updates = (long) (1E9/10);
-    public static boolean debug_mode = true;
+    public static boolean debug_mode = false;
     public static boolean limitFrameRate = true;
 
 
