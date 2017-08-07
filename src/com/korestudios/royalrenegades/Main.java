@@ -5,11 +5,8 @@ import com.korestudios.royalrenegades.constants.GlobalVariables;
 import com.korestudios.royalrenegades.graphics.FrameBuffer;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.graphics.VertexArray;
-import com.korestudios.royalrenegades.guis.DebugGui;
 import com.korestudios.royalrenegades.guis.GuiManager;
-import com.korestudios.royalrenegades.guis.SettingGui;
 import com.korestudios.royalrenegades.input.Input;
-import com.korestudios.royalrenegades.renderer.MasterRenderer;
 import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.states.StateManager;
 import com.korestudios.royalrenegades.utils.ErrorCallback;
@@ -17,7 +14,6 @@ import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
 import com.korestudios.royalrenegades.utils.time.TimeStats;
 import com.korestudios.royalrenegades.utils.time.TimerUtils;
-import com.korestudios.royalrenegades.world.World;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
@@ -173,7 +169,7 @@ public class Main implements Runnable{
         FrameBuffer.cleanup();
     }
 
-    public void start(){
+    private void start(){
         running=true;
         thread = new Thread(this, "GameThread");
         thread.start();

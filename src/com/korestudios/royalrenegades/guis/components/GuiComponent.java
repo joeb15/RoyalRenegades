@@ -1,7 +1,5 @@
 package com.korestudios.royalrenegades.guis.components;
 
-import org.joml.Vector2f;
-
 import java.util.ArrayList;
 
 public class GuiComponent {
@@ -10,7 +8,7 @@ public class GuiComponent {
 
     private ArrayList<GuiComponent> children = new ArrayList<>();
 
-    public GuiComponent(boolean show){
+    GuiComponent(boolean show){
         this.show=show;
     }
 
@@ -22,7 +20,8 @@ public class GuiComponent {
         for(GuiComponent c:children)
             c.setShowing(showing);
     }
-    public void addChild(GuiComponent component){
+
+    void addChild(GuiComponent component){
         children.add(component);
     }
 

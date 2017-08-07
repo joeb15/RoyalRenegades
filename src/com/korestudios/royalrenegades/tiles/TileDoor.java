@@ -1,10 +1,8 @@
 package com.korestudios.royalrenegades.tiles;
 
 import com.korestudios.royalrenegades.entities.Entity;
-import com.korestudios.royalrenegades.entities.MainEntity;
 import com.korestudios.royalrenegades.tiles.metadata.DoorMetaData;
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
-import com.korestudios.royalrenegades.world.Chunk;
 import com.korestudios.royalrenegades.world.World;
 
 public class TileDoor extends Tile {

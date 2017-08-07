@@ -1,7 +1,6 @@
 package com.korestudios.royalrenegades.guis;
 
 import com.korestudios.royalrenegades.guis.components.GuiComponent;
-import org.joml.Vector2f;
 
 import java.util.ArrayList;
 
@@ -9,12 +8,12 @@ public class Gui {
 
     private ArrayList<GuiComponent> components = new ArrayList<>();
 
-    public void show(){
+    void show(){
         for(GuiComponent c:components)
             c.setShowing(true);
     }
 
-    public void hide(){
+    void hide(){
         for(GuiComponent c:components)
             c.setShowing(false);
     }

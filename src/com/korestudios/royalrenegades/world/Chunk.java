@@ -11,12 +11,10 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector4i;
 
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.korestudios.royalrenegades.constants.ErrorConstants.TILE_REQUIRES_METADATA_ERROR;
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
-import static com.korestudios.royalrenegades.constants.GlobalVariables.CENTER;
 
 /**
  * Created by joe on 7/15/17.
@@ -44,16 +42,14 @@ public abstract class Chunk {
         int chunkCenter = chunkSize/2;
         float tilePixelDelta = hw/2 + delta;
         int tileDelta = (int) Math.ceil(tilePixelDelta/TILE_SIZE);
-        int tile = chunkCenter - tileDelta;
-        return tile;
+        return chunkCenter - tileDelta;
     }
 
     private int getMax(float delta, float hw, int chunkSize){
         int chunkCenter = chunkSize/2;
         float tilePixelDelta = hw/2 - delta;
         int tileDelta = (int) Math.ceil(tilePixelDelta/TILE_SIZE);
-        int tile = chunkCenter + tileDelta;
-        return tile;
+        return chunkCenter + tileDelta;
     }
 
     public Vector4i getVisibleArea(Vector2f center){
@@ -91,10 +87,12 @@ public abstract class Chunk {
     protected void setTile(int x, int y, Tile t, MetaData metaData){
         if(t.hasMetaData()&&metaData==null)
             Logger.log(PRIORITY.ERRORS, "Chunk", "Tile was not supplied metadata even though it was required", TILE_REQUIRES_METADATA_ERROR, false);
-        tiles[y][x]=t;
-        metaData.x=x;
-        metaData.y=y;
-        this.metaData[y][x]=metaData;
+        else {
+            tiles[y][x] = t;
+            metaData.x = x;
+            metaData.y = y;
+            this.metaData[y][x]=metaData;
+        }
     }
 
     public Tile getTile(int x, int y){
@@ -114,14 +112,13 @@ public abstract class Chunk {
         return w;
     }
 
-    public int getHeight() {
+    protected int getHeight() {
         return h;
     }
 
     public MetaData getMetadata(int x, int y) {
         if (x >= 0 && y >= 0 && x < w && y < h){
-            MetaData m = metaData[y][x];
-            return m;
+            return metaData[y][x];
         }
         return null;
     }
@@ -141,12 +138,12 @@ public abstract class Chunk {
         return metaData;
     }
 
-    public Entity removeEntity(Entity collider) {
+    Entity removeEntity(Entity collider) {
         entities.remove(collider);
         return collider;
     }
 
-    public void addEntity(Entity entity){
+    void addEntity(Entity entity){
         entities.add(entity);
     }
 

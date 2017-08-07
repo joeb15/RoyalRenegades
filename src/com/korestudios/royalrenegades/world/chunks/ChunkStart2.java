@@ -1,7 +1,6 @@
 package com.korestudios.royalrenegades.world.chunks;
 
 import com.korestudios.royalrenegades.entities.Entity;
-import com.korestudios.royalrenegades.entities.MainEntity;
 import com.korestudios.royalrenegades.physics.CollisionSystem;
 import com.korestudios.royalrenegades.tiles.Tile;
 import com.korestudios.royalrenegades.tiles.TileList;
