@@ -3,6 +3,7 @@ package com.korestudios.royalrenegades.tiles;
 import com.korestudios.royalrenegades.entities.Entity;
 import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.tiles.metadata.MetaData;
+import com.korestudios.royalrenegades.world.Chunk;
 import com.korestudios.royalrenegades.world.World;
 
 import static com.korestudios.royalrenegades.constants.VariableConstants.*;
@@ -10,8 +11,6 @@ import static com.korestudios.royalrenegades.constants.VariableConstants.*;
 public class Tile {
 
     private SpriteSheet texture;
-
-    private boolean usesConnectedTextures = false;
     private boolean hasMetaData = false;
     private int xPos, yPos;
     private boolean collides = true;
@@ -24,7 +23,6 @@ public class Tile {
 
     public Tile(String texturePath, int ssW, int ssH){
         this(texturePath, ssW, ssH, 0, 0);
-        usesConnectedTextures=true;
     }
 
     public Tile(int xPos, int yPos){
@@ -33,7 +31,14 @@ public class Tile {
 
     public Tile(){
         this(DEFAULT_SPRITE_SHEET, DEFAULT_SPRITE_SHEET_COLS, DEFAULT_SPRITE_SHEET_ROWS, 0, 0);
-        usesConnectedTextures=true;
+    }
+
+    public void onPlace(Chunk chunk, Entity placer, MetaData metaData){
+
+    }
+
+    public void onDestroy(Chunk chunk, Entity destroyer, MetaData metaData){
+
     }
 
     public boolean onCollide(World world, Entity collider, MetaData metaData){
@@ -50,10 +55,6 @@ public class Tile {
 
     public int getTileY(MetaData metaData){
         return yPos;
-    }
-
-    public boolean usesConnectedTextures(){
-        return usesConnectedTextures;
     }
 
     public boolean hasMetaData(){
