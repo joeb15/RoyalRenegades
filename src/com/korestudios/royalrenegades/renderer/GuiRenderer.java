@@ -2,38 +2,48 @@ package com.korestudios.royalrenegades.renderer;
 
 import com.korestudios.royalrenegades.constants.DepthConstants;
 import com.korestudios.royalrenegades.font.BitmapFont;
+import com.korestudios.royalrenegades.graphics.Animation;
+import com.korestudios.royalrenegades.graphics.Image;
+import com.korestudios.royalrenegades.graphics.SpriteSheet;
 import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.guis.Gui;
 import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.guis.components.BackgroundComponent;
 import com.korestudios.royalrenegades.guis.components.GuiComponent;
+import com.korestudios.royalrenegades.guis.components.ImageComponent;
 import com.korestudios.royalrenegades.guis.components.TextComponent;
 import com.korestudios.royalrenegades.shaders.Shader;
 import com.korestudios.royalrenegades.utils.BitmapData;
 import com.korestudios.royalrenegades.utils.RenderData;
+import com.korestudios.royalrenegades.utils.Vector9f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.korestudios.royalrenegades.constants.VariableConstants.delta;
+
 public class GuiRenderer {
 
-    private Shader fontShader, guiShader;
+    private Shader fontShader, guiShader, imageShader;
 
     private HashMap<BitmapFont, HashMap<Character, ArrayList<RenderData>>[]> textRenderData = new HashMap<>();
     private HashMap<BitmapFont, int[]> charsToDrawHash = new HashMap<>();
 
+    private HashMap<SpriteSheet, ArrayList<Vector9f>> imageHash = new HashMap<>();
     private ArrayList<BackgroundComponent> backgroundComponents = new ArrayList<>();
 
     public GuiRenderer(){
         fontShader = new Shader("shaders/font.vert", "shaders/font.frag", 4, 4);
         guiShader = new Shader("shaders/gui.vert", "shaders/gui.frag", 4, 4).doesntUseTexture();
+        imageShader = new Shader("shaders/image.vert", "shaders/image.frag", 4, 4, 1);
     }
 
     public void render(){
         clear();
         process();
+        renderImages();
         renderBackgrounds();
         renderText();
     }
@@ -45,6 +55,7 @@ public class GuiRenderer {
                 renderData[i].clear();
         }
         backgroundComponents.clear();
+        imageHash.clear();
     }
 
     private void process(){
@@ -62,8 +73,28 @@ public class GuiRenderer {
             processTextComponent((TextComponent) guiComponent);
         if(guiComponent instanceof BackgroundComponent)
             processBackgroundComponent((BackgroundComponent) guiComponent);
+        if(guiComponent instanceof ImageComponent)
+            processImageComponent((ImageComponent)guiComponent);
         for(GuiComponent gc:guiComponent.getChildren())
             processComponent(gc);
+    }
+
+    private void processImageComponent(ImageComponent imageComponent){
+        if(!imageComponent.isShowing())
+            return;
+        Image image = imageComponent.getImage();
+        Animation animation = image.getAnimation();
+        SpriteSheet spriteSheet = animation.getSpriteSheet();
+        if(!imageHash.containsKey(spriteSheet))
+            imageHash.put(spriteSheet, new ArrayList<>());
+        imageHash.get(spriteSheet).add(new Vector9f(
+                image.getX(),image.getY(),image.getWidth(),image.getHeight(),
+                animation.getTileX(),
+                animation.getTileY(),
+                animation.getTileWidth(),
+                animation.getTileHeight(),
+                image.getRotation()
+        ));
     }
 
     private void processBackgroundComponent(BackgroundComponent backgroundComponent){
@@ -158,6 +189,34 @@ public class GuiRenderer {
             }
         }
         fontShader.disable();
+    }
+
+    private void renderImages(){
+        imageShader.enable();
+        imageShader.setUniform1f("depth", DepthConstants.GUI_DEPTH);
+        for(SpriteSheet t:imageHash.keySet()){
+            t.bind(0);
+            float partialW = 1f/t.getCols();
+            float partialH = 1f/t.getRows();
+            ArrayList<Vector9f> arrayList = imageHash.get(t);
+            imageShader.prime(arrayList.size());
+            for (Vector9f pos : arrayList) {
+                imageShader.load(
+                        pos.x,
+                        pos.y,
+                        pos.w,
+                        pos.h,
+                        partialW*pos.uvx+delta,
+                        partialH*pos.uvy+delta,
+                        partialW*pos.uvw,
+                        partialH*pos.uvh,
+                        pos.rot
+                );
+            }
+            imageShader.draw(arrayList.size());
+            Texture.unbind();
+        }
+        imageShader.disable();
     }
 
     private void renderBackgrounds(){
