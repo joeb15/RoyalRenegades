@@ -39,5 +39,6 @@ public class ErrorConstants {
     public static final int FRAMEBUFFER_INCOMPLETE_FORMAT = 42;
     public static final int FRAMEBUFFER_INCOMPLETE_READ = 43;
     public static final int FRAMEBUFFER_OTHER_ERROR = 44;
+    public static final int ALC_OPEN_ERROR = 45;
 
 }

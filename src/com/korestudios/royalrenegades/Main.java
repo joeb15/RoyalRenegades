@@ -8,6 +8,7 @@ import com.korestudios.royalrenegades.graphics.VertexArray;
 import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.shaders.Shader;
+import com.korestudios.royalrenegades.sound.SoundManager;
 import com.korestudios.royalrenegades.states.StateManager;
 import com.korestudios.royalrenegades.utils.ErrorCallback;
 import com.korestudios.royalrenegades.utils.logging.Logger;
@@ -17,7 +18,6 @@ import com.korestudios.royalrenegades.utils.time.TimerUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLUtil;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
@@ -54,6 +54,7 @@ public class Main implements Runnable{
     private void init(){
         createWindow();
         Input.init(window);
+        SoundManager.init();
         StateManager.CURRENT_STATE.init();
         resize(FRAME_WIDTH, FRAME_HEIGHT);
     }
@@ -170,6 +171,7 @@ public class Main implements Runnable{
         Shader.cleanup();
         VertexArray.cleanup();
         FrameBuffer.cleanup();
+        SoundManager.cleanup();
     }
 
     private void start(){

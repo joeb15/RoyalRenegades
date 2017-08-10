@@ -3,15 +3,9 @@ package com.korestudios.royalrenegades.entities;
 import com.korestudios.royalrenegades.graphics.Animation;
 import com.korestudios.royalrenegades.input.Input;
 import com.korestudios.royalrenegades.physics.CollisionSystem;
-import com.korestudios.royalrenegades.tiles.TileList;
-import com.korestudios.royalrenegades.tiles.metadata.DoorMetaData;
-import com.korestudios.royalrenegades.world.Chunk;
-import com.korestudios.royalrenegades.world.World;
-import org.joml.Vector2f;
-import org.joml.Vector2i;
+import com.korestudios.royalrenegades.sound.SoundManager;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
-import static com.korestudios.royalrenegades.constants.VariableConstants.*;
 import static com.korestudios.royalrenegades.utils.MathUtils.moveCloser;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -22,6 +16,7 @@ public class MainEntity extends Entity{
                 new Animation(new int[]{6, 7},new int[]{0, 0}, 10f));
         setSize(2,2);
         updateCollBox();
+
 //        Input.addListener(GLFW_MOUSE_BUTTON_LEFT, Input.TYPE_MOUSE_RELEASE, ()->{
 //            Vector2i pos = Chunk.getMouseTile();
 //            World.ACTIVE_CHUNK.removeTile(pos.x, pos.y, this);
@@ -55,11 +50,16 @@ public class MainEntity extends Entity{
             x+=ENTITY_SPEED;
         }
         move(x, 0);
-        if (CollisionSystem.collides(this))
+        if (CollisionSystem.collides(this)) {
             move(-x, 0);
+            x=0;
+        }
         move(0, y);
-        if(CollisionSystem.collides(this))
+        if(CollisionSystem.collides(this)) {
             move(0, -y);
+            y=0;
+        }
+        SoundManager.setListenerPosAndVel(pos.x, pos.y, x, y);
     }
 
 }

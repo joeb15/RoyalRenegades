@@ -4,7 +4,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TimerUtils {
 
-    private static CopyOnWriteArrayList<TimerStorage> timers = new CopyOnWriteArrayList<TimerStorage>();
+    private static CopyOnWriteArrayList<TimerStorage> timers = new CopyOnWriteArrayList<>();
     private static int currID = 0;
 
     public static void update(){
@@ -35,14 +35,20 @@ public class TimerUtils {
         timers.clear();
     }
 
-    private static class TimerStorage {
-        public long nextTime;
-        public long interval;
-        public int numLoops;
-        public Timer timer;
-        public int id;
+    public static void removeTimer(int timerID) {
+        for(TimerStorage timerStorage:timers)
+            if(timerStorage.id==timerID)
+                timers.remove(timerStorage);
+    }
 
-        public TimerStorage(long nextTime, long interval, int numLoops, int id, Timer timer){
+    private static class TimerStorage {
+        private long nextTime;
+        private long interval;
+        private int numLoops;
+        private Timer timer;
+        private int id;
+
+        private TimerStorage(long nextTime, long interval, int numLoops, int id, Timer timer){
             this.interval=interval;
             this.nextTime=nextTime;
             this.numLoops=numLoops;
