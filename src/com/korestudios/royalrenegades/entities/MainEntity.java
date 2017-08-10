@@ -19,18 +19,17 @@ public class MainEntity extends Entity{
 
     public MainEntity(float x, float y) {
         super(x,y,
-                new Animation(DEFAULT_SPRITE_SHEET, DEFAULT_SPRITE_SHEET_COLS,DEFAULT_SPRITE_SHEET_ROWS,
-                        new int[]{6, 7},new int[]{0, 0}, 10f));
+                new Animation(new int[]{6, 7},new int[]{0, 0}, 10f));
         setSize(2,2);
         updateCollBox();
-        Input.addListener(GLFW_MOUSE_BUTTON_LEFT, Input.TYPE_MOUSE_RELEASE, ()->{
-            Vector2i pos = Chunk.getMouseTile();
-            World.ACTIVE_CHUNK.removeTile(pos.x, pos.y, this);
-        });
-        Input.addListener(GLFW_MOUSE_BUTTON_RIGHT, Input.TYPE_MOUSE_RELEASE, ()->{
-            Vector2i pos = Chunk.getMouseTile();
-            World.ACTIVE_CHUNK.placeTile(pos.x, pos.y, TileList.tileDoor, this, new DoorMetaData(true, "Start2", new Vector2f(pos.x/TILE_SIZE, pos.y/TILE_SIZE)));
-        });
+//        Input.addListener(GLFW_MOUSE_BUTTON_LEFT, Input.TYPE_MOUSE_RELEASE, ()->{
+//            Vector2i pos = Chunk.getMouseTile();
+//            World.ACTIVE_CHUNK.removeTile(pos.x, pos.y, this);
+//        });
+//        Input.addListener(GLFW_MOUSE_BUTTON_RIGHT, Input.TYPE_MOUSE_RELEASE, ()->{
+//            Vector2i pos = Chunk.getMouseTile();
+//            World.ACTIVE_CHUNK.placeTile(pos.x, pos.y, TileList.tileDoor, this, new DoorMetaData(true, "Start2", new Vector2f(pos.x/TILE_SIZE, pos.y/TILE_SIZE)));
+//        });
     }
 
     @Override

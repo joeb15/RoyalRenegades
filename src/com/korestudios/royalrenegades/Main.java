@@ -17,6 +17,7 @@ import com.korestudios.royalrenegades.utils.time.TimerUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLUtil;
 
 import static com.korestudios.royalrenegades.constants.GlobalVariables.*;
@@ -89,13 +90,15 @@ public class Main implements Runnable{
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glfwShowWindow(window);
         Logger.log(PRIORITY.VERBOSE, "Main", "OpenGL: "+glGetString(GL_VERSION));
         Logger.log(PRIORITY.DEBUG, "Main", "Window creation took "+TimeStats.stop("CreateWindow")/1E6+" ms");
     }
 
-    private void resize(int w, int h){
+    public void resize(int w, int h){
         FRAME_WIDTH=w;
         FRAME_HEIGHT=h;
         GlobalVariables.PROJECTION_MATRIX.identity().ortho(0f, FRAME_WIDTH, FRAME_HEIGHT, 0, .01f, 10.01f);
@@ -178,5 +181,4 @@ public class Main implements Runnable{
     public static void main(String[] args){
         new Main().start();
     }
-
 }
