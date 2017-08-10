@@ -3,11 +3,11 @@ package com.korestudios.royalrenegades.graphics;
 import com.korestudios.royalrenegades.constants.ErrorConstants;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
+import com.korestudios.royalrenegades.vfs.FileSystem;
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class Texture {
 
     private int load(String path, int GL_MODE){
         try{
-            BufferedImage bi = ImageIO.read(new File(path));
+            BufferedImage bi = ImageIO.read(FileSystem.getFile(path));
             return load(bi, GL_MODE);
         }catch (IOException e){
             Logger.log(PRIORITY.CRITICAL_ERRORS, "Texture", e.getMessage(), IMAGE_LOAD_ERROR, true);

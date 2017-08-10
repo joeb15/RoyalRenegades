@@ -3,8 +3,6 @@ package com.korestudios.royalrenegades.states;
 import com.korestudios.royalrenegades.guis.GuiManager;
 import com.korestudios.royalrenegades.guis.SplashGui;
 import com.korestudios.royalrenegades.renderer.GuiRenderer;
-import com.korestudios.royalrenegades.sound.Sound;
-import com.korestudios.royalrenegades.sound.Source;
 
 public class SplashState extends State {
 
@@ -23,9 +21,6 @@ public class SplashState extends State {
     @Override
     public void init() {
         guiRenderer = new GuiRenderer();
-
-        Source source = new Source(0,0,0);
-        source.play(Sound.getSound("hello.wav"));
 
         GuiManager.addGui(new SplashGui());
     }

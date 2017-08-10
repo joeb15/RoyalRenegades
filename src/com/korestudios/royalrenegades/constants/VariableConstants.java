@@ -18,7 +18,7 @@ public class VariableConstants {
     public static final int MAX_INSTANCES = 10000;
     public static final int INSTANCE_DATA_LENGTH = 8;
 
-    public static final String DEFAULT_SPRITE_SHEET = "res/sheet.png";
+    public static final String DEFAULT_SPRITE_SHEET = "sheet.png";
     public static final int DEFAULT_SPRITE_SHEET_ROWS = 16;
     public static final int DEFAULT_SPRITE_SHEET_COLS = 16;
 

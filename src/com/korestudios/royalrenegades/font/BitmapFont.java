@@ -4,6 +4,7 @@ import com.korestudios.royalrenegades.graphics.Texture;
 import com.korestudios.royalrenegades.utils.BitmapData;
 import com.korestudios.royalrenegades.utils.logging.Logger;
 import com.korestudios.royalrenegades.utils.logging.PRIORITY;
+import com.korestudios.royalrenegades.vfs.FileSystem;
 import org.joml.Vector2f;
 
 import java.io.BufferedReader;
@@ -17,8 +18,8 @@ import static org.lwjgl.opengl.GL11.GL_LINEAR;
 
 public class BitmapFont {
 
-    public static final BitmapFont FONT_DEJAVU = new BitmapFont("res/fonts/dejavu/Dejavu.fnt");
-    public static final BitmapFont FONT_COURIER = new BitmapFont("res/fonts/courier/Courier.fnt");
+    public static final BitmapFont FONT_DEJAVU = new BitmapFont("fonts/dejavu/Dejavu.fnt");
+    public static final BitmapFont FONT_COURIER = new BitmapFont("fonts/courier/Courier.fnt");
 
     private HashMap<Character, BitmapData> charData = new HashMap<>();
 
@@ -38,7 +39,7 @@ public class BitmapFont {
     public BitmapFont(String fontFile){
         try {
             String path = fontFile.substring(0, fontFile.lastIndexOf("/"));
-            BufferedReader br = new BufferedReader(new FileReader(fontFile));
+            BufferedReader br = new BufferedReader(new FileReader(FileSystem.getFile(fontFile)));
             String line;
             int chars=0, kernings=0, expectedChars=-1, expectedKernings=-1;
             while((line = br.readLine())!=null){
